@@ -1,0 +1,15 @@
+Title: The solar system
+
+Our solar system includes the Sun, planets, moons, comets, asteroids, ice, and dwarf planets. The planets orbit the Sun in elliptical paths. 
+Planets
+1. Mercury: The planet closest to the Sun, with an eccentric orbit that helped confirm Einstein's theory of relativity 
+2. Venus: A planet that has evolved from habitable conditions to its current state 
+3. Earth: The third planet from the Sun, with a central core, rocky mantle, and solid crust 
+4. Mars: The fourth planet from the Sun, about half the size of Earth 
+5. Jupiter: The largest planet in our solar system, a gaseous giant that's more than twice as large as all the other planets combined 
+6. Saturn: One of the largest planets, mostly made of hydrogen and helium 
+7. Uranus: The seventh planet from the Sun, a cyan-colored world tipped on its side 
+8. Neptune: The farthest planet from the Sun, with the most meteorologically active atmosphere in the solar system 
+
+Dwarf planets 
+    1. Pluto: A dwarf planet located in the Trans-Neptunian region, beyond Neptune
