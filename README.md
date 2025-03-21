@@ -20,5 +20,24 @@ This project help us to dubbed any video to our preference languages. If we have
     
     - Fifth, then in vs terminal run this command "pip install ffmpeg-python" and follow the above code, Now you are ready to extract audios file from videos.
     
-github education
-claude
+2. Audio to text - SpeechRecognition, pydub, os
+    - Install these libraries SpeechRecognition, pydub
+    - Follow the code above
+    - You can also change the value of below variables to set more accuracy:
+        - min_silence_len = 500, : 
+            - This sets the minimum length of silence (in milliseconds) that the function should recognize as a "split point."
+            - 500 means that any silence lasting half a second or more will be considered a boundary to split the audio into chunks.
+            - If your audio has longer pauses, you can increase this value; for shorter pauses, decrease it.
+        - silence_thresh = sound.dBFS-10, :
+            - dBFS stands for "Decibels relative to Full Scale," which measures loudness.
+            - sound.dBFS gives the average loudness of the entire audio.
+            - By subtracting 14, you're setting the silence threshold to be 14 decibels lower than the average loudness.
+            - Any part of the audio quieter than this threshold for at least min_silence_len milliseconds will be considered silence.
+            - You can adjust -14 depending on how "quiet" the silence in your audio is. Larger negative values make it more sensitive.
+        - keep_silence=500, :
+            - This determines how much of the detected silence (in milliseconds) to keep at the beginning and end of each chunk.
+            - In this example, it keeps 500 milliseconds (0.5 seconds) of silence padding at both ends of the split chunks.
+            - This can make the resulting chunks sound more natural if you're planning to process or play them separately.
+    - Call the function and text will be generated.
+
+3. Text to Translated Text
