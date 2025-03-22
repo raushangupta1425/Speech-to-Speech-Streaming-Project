@@ -1,4 +1,5 @@
 .env
 stss_app_env/
-audio_extraction.py
+test.py
 note.txt
+app.ipynb

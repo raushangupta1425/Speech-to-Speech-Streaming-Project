@@ -1,4 +1,4 @@
-# INFOSYS_STSS_APP
+# SPEECH-TO-SPEECH-STREAMING_APP
 This project help us to dubbed any video to our preference languages. If we have any video which is in another language,  which we can't able to understand then we can dubbed that video language into our understanding languages.
 
 ## Steps for completing project.
@@ -40,4 +40,10 @@ This project help us to dubbed any video to our preference languages. If we have
             - This can make the resulting chunks sound more natural if you're planning to process or play them separately.
     - Call the function and text will be generated.
 
-3. Text to Translated Text
+3. Text to Translated Text - googletrans
+    - You can print all supported languages through this code "print(googletrans.LANGUAGES)"
+    - from_lang = 'hi' provide language code of source text.
+    - to_lang = 'en' provide language code of targeted text
+    - Provide source text during function call as argument.
+
+4. Text To Audio
