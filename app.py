@@ -6,6 +6,8 @@ from pydub import AudioSegment
 from pydub.silence import split_on_silence
 import asyncio
 from googletrans import Translator
+import asyncio
+import edge_tts
 
 # Step 1: Extract audio from video
 def extract_audio(video_path, output_audio_path):
@@ -15,12 +17,11 @@ def extract_audio(video_path, output_audio_path):
     return output_audio_path
 
 # Step 2: Convert audio file to text
-
-# create a speech recognition object
-r = sr.Recognizer()
-
 # Transcribe the audio file to text
 def transcribe_audio(path):
+    # create a speech recognition object
+    r = sr.Recognizer()
+    
     """ a function to recognize speech in the audio file, so that we don't repeat ourselves in in other functions """
     # use the audio file as the audio source
     with sr.AudioFile(path) as source:
@@ -71,20 +72,48 @@ def get_large_audio_transcription_on_silence(path):
     # return the text for all chunks detected
     return whole_text
 
-# Step 3
-# Translator method for translation
-translator = Translator()
-
-# Source and target languages
-from_lang = 'hi'
-to_lang = 'en'
-
-# Translate the text
+# Step 3: Translate the text
 async def translate_text(source_text):
+    # Translator method for translation
+    translator = Translator()
+
+    # Source and target languages
+    from_lang = 'hi'
+    to_lang = 'en'
+    
     async with Translator() as translator:
         result = await translator.translate(source_text, src=from_lang, dest=to_lang)
         return result.text
-    
+
+# Step 4: Convert Text to speech
+# Top most used voices
+Voices = {
+    "Spanish": {"male": "es-ES-AlvaroNeural", "female": "es-ES-ElviraNeural"},
+    "French": {"male": "fr-FR-HenriNeural", "female": "fr-FR-DeniseNeural"},
+    "German": {"male": "de-DE-ConradNeural", "female": "de-DE-KatjaNeural"},
+    "Hindi": {"male": "hi-IN-MadhurNeural", "female": "hi-IN-SwaraNeural"},
+    "Tamil": {"male": "ta-IN-ValluvarNeural", "female": "ta-IN-PallaviNeural"},
+    "Arabic": {"male": "ar-SA-FareedNeural", "female": "ar-SA-ZariyahNeural"},
+    "Bengali": {"male": "bn-IN-BashkarNeural", "female": "bn-IN-TanishaaNeural"},
+    "Chinese": {"male": "zh-CN-YunxiNeural", "female": "zh-CN-XiaoxiaoNeural"},
+    "Portuguese": {"male": "pt-PT-FernandoNeural", "female": "pt-PT-FernandaNeural"},
+    "Russian": {"male": "ru-RU-DmitryNeural", "female": "ru-RU-SvetlanaNeural"},
+    "English": {"male": "en-US-GuyNeural", "female": "en-US-JennyNeural"}
+}
+
+# Convert text to speech
+async def text_to_speech(text, output_file, lang="English", gender="male"):
+    print('Converting text to speech...')
+    try:
+        voice = Voices[lang][gender.lower()]
+        communicate = edge_tts.Communicate(text, voice, rate="-10%")  # Decrease speed by 10%
+        await communicate.save(output_file)
+        print(f"Speech saved as {output_file}")
+        print('Text converted to speech successfully!')
+    except Exception as e:
+        print(f"Error while generating speech: {e}")
+
+
 # Run the app
 # Step 1
 fileName = 'video'
@@ -93,6 +122,12 @@ outputPath = './' + fileName + '.mp3'
 
 outputFileName = extract_audio(inputPath, outputPath)
 
-# Step 2
+# Step 2 and 3
 generated_text = get_large_audio_transcription_on_silence(outputFileName)
-print(generated_text)
+
+# Step 4
+output_file = "translatedAudio.mp3"
+mytext = f"""{generated_text}"""
+
+# Run the async function
+asyncio.run(text_to_speech(mytext, output_file))

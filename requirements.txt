@@ -2,3 +2,4 @@ ffmpeg-python
 SpeechRecognition
 pydub
 googletrans
+edge_tts

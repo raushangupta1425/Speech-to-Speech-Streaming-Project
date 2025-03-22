@@ -8,6 +8,12 @@ This project help us to dubbed any video to our preference languages. If we have
 4. text to audio
 5. mergea audio with original video
 
+## Prons
+    - maximun video length upto 5 minutes till now
+
+## Important Instruction before running app
+    - Rename your video name as "video" to work properly
+
 ## Follow the instruction
 1. Audio extraction - ffmpeg package
     - First, you have to download and setup its file in windows or any operating system that you have. For that, click on this link : https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z  the file will be downloaded for windows operating system. For any other operating system, click on this link : https://ffmpeg.org/download.html  then choose your operating system and download the file.
@@ -46,4 +52,8 @@ This project help us to dubbed any video to our preference languages. If we have
     - to_lang = 'en' provide language code of targeted text
     - Provide source text during function call as argument.
 
-4. Text To Audio
+4. Text To Audio - edge_tts
+    - You can choose your language from the listing voices and pass as parameter in lang 
+    - You can choose your gender voice from the listing voices and pass as parameter in gender
+
+5. Mergea audio with original video
