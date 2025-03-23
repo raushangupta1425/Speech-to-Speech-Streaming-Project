@@ -8,6 +8,7 @@ import asyncio
 from googletrans import Translator
 import asyncio
 import edge_tts
+from moviepy import VideoFileClip, AudioFileClip
 
 # Step 1: Extract audio from video
 def extract_audio(video_path, output_audio_path):
@@ -113,6 +114,21 @@ async def text_to_speech(text, output_file, lang="English", gender="male"):
     except Exception as e:
         print(f"Error while generating speech: {e}")
 
+# Step 5: Merge translated audio with original's video
+def merge_audio_with_video(video_path, audio_path, output_path):
+    print('Merging audio with video...')
+    # Load the video and audio files
+    video_clip = VideoFileClip(video_path)
+    audio_clip = AudioFileClip(audio_path)
+
+    # Set the audio for the video clip
+    final_clip = video_clip.with_audio(audio_clip)
+
+    # Write the combined clip to a new video file
+    final_clip.write_videofile(output_path, fps=24)
+    print('\nNew dubbed video saved as dubbed_video.mp4')
+    print('Audio merging with original video successfully!')
+    
 
 # Run the app
 # Step 1
@@ -131,3 +147,9 @@ mytext = f"""{generated_text}"""
 
 # Run the async function
 asyncio.run(text_to_speech(mytext, output_file))
+
+# Step 5
+original_video_path = inputPath
+translated_audio_path = output_file
+output_video_path = './dubbed_video.mp4'
+merge_audio_with_video(original_video_path, translated_audio_path, output_video_path)

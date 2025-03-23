@@ -56,4 +56,5 @@ This project help us to dubbed any video to our preference languages. If we have
     - You can choose your language from the listing voices and pass as parameter in lang 
     - You can choose your gender voice from the listing voices and pass as parameter in gender
 
-5. Mergea audio with original video
+5. Mergea audio with original video - moviepy
+    - You will get the output video with the name dubbed_video.mp4
