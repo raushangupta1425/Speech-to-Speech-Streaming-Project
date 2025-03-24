@@ -15,7 +15,7 @@ This project help us to dubbed any video to our preference languages. If we have
     - Rename your video name as "video" to work properly
 
 ## Follow the instruction
-1. Audio extraction - ffmpeg package
+1. Audio extraction : extract_audio.py  -  ffmpeg package
     - First, you have to download and setup its file in windows or any operating system that you have. For that, click on this link : https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z  the file will be downloaded for windows operating system. For any other operating system, click on this link : https://ffmpeg.org/download.html  then choose your operating system and download the file.
 
     - Second, Extract the downloaded file and move it in C drive and rename it as "ffmpeg" directory name.
@@ -26,7 +26,7 @@ This project help us to dubbed any video to our preference languages. If we have
     
     - Fifth, then in vs terminal run this command "pip install ffmpeg-python" and follow the above code, Now you are ready to extract audios file from videos.
     
-2. Audio to text - SpeechRecognition, pydub, os
+2. Audio to text : audio_to_text.py  - SpeechRecognition, pydub, os
     - Install these libraries SpeechRecognition, pydub
     - Follow the code above
     - You can also change the value of below variables to set more accuracy:
@@ -46,15 +46,15 @@ This project help us to dubbed any video to our preference languages. If we have
             - This can make the resulting chunks sound more natural if you're planning to process or play them separately.
     - Call the function and text will be generated.
 
-3. Text to Translated Text - googletrans
+3. Text to Translated Text : translate_text.py  - googletrans
     - You can print all supported languages through this code "print(googletrans.LANGUAGES)"
     - from_lang = 'hi' provide language code of source text.
     - to_lang = 'en' provide language code of targeted text
     - Provide source text during function call as argument.
 
-4. Text To Audio - edge_tts
+4. Text To Audio : text_to_speech.py  - edge_tts
     - You can choose your language from the listing voices and pass as parameter in lang 
     - You can choose your gender voice from the listing voices and pass as parameter in gender
 
-5. Mergea audio with original video - moviepy
+5. Mergea audio with original video : merge_video_with_speech.py  - moviepy
     - You will get the output video with the name dubbed_video.mp4
