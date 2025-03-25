@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Webpage with JS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <center><h1>Video Dubbing Platform</h1></center>
+    <p>Upload your video and select the language you want to dub it into. Our AI-powered system will generate a naturally dubbed version in your chosen language.</p>
+    <div class="container">
+        <h3>Upload Your Video</h3>
+        <div class="uploadBox">
+            <div class="displayUploadedVideo">
+                <video width="100%" controls>
+                    <source src="../video.mp4" type="video/*">
+                </video>
+            </div>
+            <div class="uploadBtnBox">
+                <label for="selectVideo" id="uploadBtn">Select Video</label>
+                <input id="selectVideo" name="video" type="file" hidden required>
+                <button id="uploader">Upload video</button>
+            </div>
+        </div>
+        <p id="status"></p>
+        <h3>Select Dubbing Language</h3>
+        <div class="selectLanguage">
+            <select name="targetLanguage" id="tarLang">
+                <option> Select Language </option>
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+            </select>
+            <button id="startDubbing">Start Dubbing Process</button>
+        </div>
+        <div class="dubbedResult">
+            <h2>Dubbing Results</h2>
+            <div class="tabs">
+                <div id="previewTab" class="tab active">Preview</div>
+                <div id="compareTab" class="tab">Compare</div>
+            </div>
+            <div id="outputVideoOnly">
+                <video controls>
+                    <source src="#" type="video/*">
+                </video>
+            </div>
+            <div id="compareVideo" style="display:none;">
+                <video controls>
+                    <source src="#" type="video/*">
+                </video>
+                <video controls>
+                    <source src="#" type="video/*">
+                </video>
+            </div>
+            <div class="buttons">
+                <button>Download</button>
+                <button>Share</button>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

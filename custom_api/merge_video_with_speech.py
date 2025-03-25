@@ -4,10 +4,10 @@ import os
 
 class MergeVideoAudio:
     # Step 5: Merge translated audio with original's video
-    def merge_audio_with_video(self, video_path, audio_path):
+    def merge_audio_with_video(self, video_path, audio_path, dubbedVideoPath= './dubbed_videos/dubbed_video.mp4'):
         try:
             print('Merging audio with video...')
-            output_path = './dubbed_video.mp4'
+            output_path = './dubbed_videos/' + dubbedVideoPath + '_dubbed.mp4'
             # Load the video and audio files
             video_clip = VideoFileClip(video_path)
             audio_clip = AudioFileClip(audio_path)
