@@ -21,5 +21,6 @@ class MergeVideoAudio:
                 os.remove("./translatedAudio.mp3")
             print('\nNew dubbed video saved as dubbed_video.mp4')
             print('Audio merging with original video successfully!')
+            return dubbedVideoPath + '_dubbed.mp4'
         except Exception as e:
             print(f" Error in mergeing! {e}")

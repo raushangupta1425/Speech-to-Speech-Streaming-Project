@@ -7,6 +7,13 @@ const uploaderBtn = document.getElementById('uploader')
 const selectVideoInput = document.getElementById('selectVideo')
 const startDubbingBtn = document.getElementById('startDubbing')
 const status = document.getElementById('status')
+const disUpVid = document.getElementById('disUpVid')
+const downloadLink = document.getElementById('downloadLink')
+const targetLanguage = document.getElementById('tarLang')
+const sourceLanguage = document.getElementById('sourLang')
+const originalVideoCompare = document.getElementById('originalVideoCompare')
+const dubbedVideoCompare = document.getElementById('dubbedVideoCompare')
+const dubbedVideoDisplay = document.getElementById('dubbedVideoDisplay')
 
 // Switch between tabs
 previewBtn.addEventListener('click', () => {
@@ -43,6 +50,10 @@ uploaderBtn.addEventListener('click', ()=>{
                 status.innerHTML = '';
             },3000)
             filename = data.filename;
+            disUpVid.src = data.video_url;  // Set the uploaded video URL from response
+            originalVideoCompare.src = data.video_url;
+            // disUpVid.load(); // Reload the video element with the new source
+            // originalVideoCompare.load();
         })
         .catch(err => {
             status.innerHTML = "Status: Error in uploading.";
@@ -63,6 +74,8 @@ startDubbingBtn.addEventListener('click', () => {
     status.style.color= "green";
     const formData = new FormData();
         formData.append('video', filename);
+        formData.append('targetLanguage', targetLanguage.value);
+        formData.append('sourceLanguage', sourceLanguage.value);
 
         fetch('/start', {
             method: 'POST',
@@ -76,6 +89,12 @@ startDubbingBtn.addEventListener('click', () => {
                 status.innerHTML = '';
             },3000)
             filename = data.filename;
+            downloadLink.href = data.dubbed_url;  // Use returned URL from backend
+            downloadLink.download = data.filename;
+            dubbedVideoCompare.src = data.dubbed_url;
+            dubbedVideoDisplay.src = data.dubbed_url;
+            // dubbedVideoCompare.load();
+            // dubbedVideoDisplay.load();
         })
         .catch(err => {
             status.innerHTML = "Status: Error in process of dubbing.";

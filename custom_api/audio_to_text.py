@@ -6,6 +6,7 @@ from pydub.silence import split_on_silence
 import asyncio
 from custom_api.translate_text import TranslateText
 import shutil
+from custom_api.correct_text import CorrectText
 
 class AudioTranscriber:
     def __init__(self):
@@ -18,7 +19,7 @@ class AudioTranscriber:
             text = self.recognizer.recognize_google(audio_listened)
         return text
 
-    def get_large_audio_transcription_on_silence(self, path):
+    def get_large_audio_transcription_on_silence(self, path, targetLanguage, sourceLanguage):
         print('Converting audio to text...')
         sound = AudioSegment.from_file(path)
         chunks = split_on_silence(sound,
@@ -40,7 +41,8 @@ class AudioTranscriber:
             else:
                 text = f"{text.capitalize()}. "
                 print(chunk_filename, ":", text)
-                translated_text = asyncio.run(TranslateText().translate_text(text))
+                # text = CorrectText.correct_text(text)
+                translated_text = asyncio.run(TranslateText().translate_text(text, targetLanguage, sourceLanguage))
                 whole_text += translated_text
         
         if os.path.isdir(folder_name):

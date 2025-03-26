@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Webpage with JS</title>
+    <title>Video Dubbing Platform</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -14,7 +14,7 @@
         <div class="uploadBox">
             <div class="displayUploadedVideo">
                 <video width="100%" controls>
-                    <source src="../video.mp4" type="video/*">
+                    <source id="disUpVid" src="#" type="video/*">
                 </video>
             </div>
             <div class="uploadBtnBox">
@@ -26,10 +26,17 @@
         <p id="status"></p>
         <h3>Select Dubbing Language</h3>
         <div class="selectLanguage">
+            <select name="sourceLanguage" id="sourLang">
+                <option value="sourceLanguage"> Current Language </option>
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+            </select>
             <select name="targetLanguage" id="tarLang">
-                <option> Select Language </option>
-                <option value="English">English</option>
-                <option value="Hindi">Hindi</option>
+                <option value="target_language"> Target Language </option>
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
             </select>
             <button id="startDubbing">Start Dubbing Process</button>
         </div>
@@ -41,20 +48,19 @@
             </div>
             <div id="outputVideoOnly">
                 <video controls>
-                    <source src="#" type="video/*">
+                    <source id="dubbedVideoDisplay" src="#" type="video/*">
                 </video>
             </div>
             <div id="compareVideo" style="display:none;">
                 <video controls>
-                    <source src="#" type="video/*">
+                    <source id="originalVideoCompare" src="#" type="video/*">
                 </video>
                 <video controls>
-                    <source src="#" type="video/*">
+                    <source id="dubbedVideoCompare" src="#" type="video/*">
                 </video>
             </div>
             <div class="buttons">
-                <button>Download</button>
-                <button>Share</button>
+                <a id="downloadLink" type="button" href="#" download>Download</a>
             </div>
         </div>
     </div>

@@ -8,11 +8,14 @@ This project help us to dubbed any video to our preference languages. If we have
 4. text to audio
 5. mergea audio with original video
 
-## Prons
-    - maximun video length upto 5 minutes till now
+## Run guideance
+    - Run the file app.py in Terminal
+    - App is running on http://127.0.0.1:5000/
 
-## Important Instruction before running app
-    - Rename your video name as "video" to work properly
+## Features
+    - Dubbed video in available languages.
+    - maximun video length upto 5 minutes till now.
+    - You can download dubbed video by clicking on Download button.
 
 ## Follow the instruction
 1. Audio extraction : extract_audio.py  -  ffmpeg package

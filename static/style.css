@@ -161,15 +161,17 @@ h2 {
     gap: 10px;
 }
 
-.buttons button {
+.buttons a {
+    text-decoration: none;
     padding: 8px 16px;
     border: none;
+    color: #000;
     background-color: transparent;
     border-radius: 5px;
     border: 1px solid #ccc;
     cursor: pointer;
 }
 
-.buttons button:hover {
+.buttons a:hover {
     background-color: #f1f0f0;
 }
