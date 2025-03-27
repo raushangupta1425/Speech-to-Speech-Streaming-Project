@@ -11,10 +11,10 @@ body{
     background-color: #F8FAFC;
 }
 
-body h1 {
+body>h1 {
     font-size: 3rem;
 }
-body p {
+body>p {
     width: 42em;
     margin: 2em auto;
     font-size: 1.2rem;
@@ -28,8 +28,7 @@ body p {
     padding: 2em;
 }
 
-
-#downloadLink {
+#downloadYTLink {
     width: 100%;
 }
 
@@ -64,7 +63,6 @@ body p {
 #downloadForm button:hover{
     background-color: #4e4e4e;
 }
-
 
 .uploadBox {
     width: 100%;
@@ -110,6 +108,30 @@ body p {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.genetratedSourceText>div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.genetratedSourceText{
+    background-color: #F8FAFC;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.5em;
+
+}
+.genetratedSourceText>div>button, #toggleShowBtn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.genetratedSourceText>p, #translatedText{
+    padding: 0.5em;
+    display: none;
 }
 
 .selectLanguage {

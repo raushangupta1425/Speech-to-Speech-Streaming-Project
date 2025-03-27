@@ -14,7 +14,7 @@
             <h3>YouTube Video Download</h3>
         <label for="downloadLink" class="downloadBox">
             <form action="#" id="downloadForm">
-                <input type="search" id="downloadLink" placeholder=" Paste the YouTube video link...">
+                <input type="search" id="downloadYTLink" placeholder=" Paste the YouTube video link...">
                 <button type="submit" id="downloadBtn">Download</button>
             </form>
         </label>
@@ -31,8 +31,15 @@
                 <input id="selectVideo" name="video" type="file" hidden required>
                 <button id="uploader">Upload video</button>
             </div>
+            <div class="genetratedSourceText">
+                <div>
+                    <h3 style="color: #bbb;">Audio Transcribe Text</h3>
+                    <button id="toggleShow">Show</button>
+                </div>
+                <p id="transcribeText">Not generated yet!</p>
+            </div>
         </div>
-        <p id="status"></p>
+        <p id="status" style="margin-bottom: 20px;"></p>
         <h3>Select Dubbing Language</h3>
         <div class="selectLanguage">
             <select name="sourceLanguage" id="sourLang">
@@ -50,6 +57,13 @@
             <button id="startDubbing">Start Dubbing Process</button>
         </div>
         <div class="dubbedResult">
+            <div class="genetratedSourceText" style="margin-bottom: 20px;">
+                <div>
+                    <h3 style="color: #bbb;">Translated Text</h3>
+                    <button id="toggleShowBtn">Show</button>
+                </div>
+                <p id="translatedText">Not translated yet!</p>
+            </div>
             <h2>Dubbing Results</h2>
             <div class="tabs">
                 <div id="previewTab" class="tab active">Preview</div>
