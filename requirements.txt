@@ -5,3 +5,5 @@ googletrans
 edge_tts
 moviepy
 flask
+git+https://github.com/pytube/pytube.git
+yt-dlp

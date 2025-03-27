@@ -14,6 +14,29 @@ const sourceLanguage = document.getElementById('sourLang')
 const originalVideoCompare = document.getElementById('originalVideoCompare')
 const dubbedVideoCompare = document.getElementById('dubbedVideoCompare')
 const dubbedVideoDisplay = document.getElementById('dubbedVideoDisplay')
+const downloadLinkInput = document.getElementById("downloadLink")
+const downloadForm = document.getElementById("downloadForm")
+const downloadBtn = document.getElementById("downloadBtn")
+
+downloadForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    downloadBtn.innerHTML = "Please wait...";
+    downloadBtn.disabled = "disabled"
+
+    const formData = new FormData();
+        formData.append('link', downloadLinkInput.value);
+    
+    fetch("/download", {
+        method: 'POST',
+        body: formData
+    })
+    .then(res=> res.json())
+    .then(data=>{
+        alert(data.message)
+        downloadBtn.innerHTML = "Download";
+        downloadBtn.removeAttribute("disabled")
+    })
+})
 
 // Switch between tabs
 previewBtn.addEventListener('click', () => {
