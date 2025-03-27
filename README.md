@@ -13,8 +13,9 @@ This project help us to dubbed any video to our preference languages. If we have
     - App is running on http://127.0.0.1:5000/
 
 ## Features
+    - You can download YouTube video using YouTube video link
     - Dubbed video in available languages.
-    - maximun video length upto 5 minutes till now.
+    - Tried video length upto 5 minutes till now. User can check more then it.
     - You can download dubbed video by clicking on Download button.
 
 ## Follow the instruction
@@ -49,11 +50,10 @@ This project help us to dubbed any video to our preference languages. If we have
             - This can make the resulting chunks sound more natural if you're planning to process or play them separately.
     - Call the function and text will be generated.
 
-3. Text to Translated Text : translate_text.py  - googletrans
-    - You can print all supported languages through this code "print(googletrans.LANGUAGES)"
+3. Text to Translated Text : translate_text.py  - Gemini model : gemini-1.5-flask
+    - Provide source text during function call as argument.
     - from_lang = 'hi' provide language code of source text.
     - to_lang = 'en' provide language code of targeted text
-    - Provide source text during function call as argument.
 
 4. Text To Audio : text_to_speech.py  - edge_tts
     - You can choose your language from the listing voices and pass as parameter in lang 

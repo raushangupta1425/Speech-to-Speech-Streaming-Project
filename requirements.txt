@@ -1,7 +1,8 @@
 ffmpeg-python
 SpeechRecognition
 pydub
-googletrans
+langchain
+langchain_google_genai
 edge_tts
 moviepy
 flask

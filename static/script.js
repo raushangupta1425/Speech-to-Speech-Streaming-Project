@@ -120,7 +120,7 @@ let filenameWithExtension;
 let original_video_path;
 
 startDubbingBtn.addEventListener('click', async () => {
-    status.innerHTML = "Status: Please wait, it takes approximately 10 minutes...";
+    status.innerHTML = "Status: Please wait, its processing...";
     status.style.color = "green";
 
     try {
