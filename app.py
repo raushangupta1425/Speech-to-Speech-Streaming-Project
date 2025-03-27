@@ -2,8 +2,6 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory, url_for
 import os
 import yt_dlp
-import asyncio
-from custom_api.translate_text import TranslateText
 
 # Import custom APIs libraries
 from custom_api.extract_audio import ExtractAudioFromVideo
@@ -90,9 +88,8 @@ def translate():
         if not generated_text or not target_language or not source_language:
             return jsonify({'message': 'Missing required fields'}), 400
 
-        # Assuming TranslateText().translate_text() is an async function
+        # For translation using gemini-1.5-flash model
         translated_text = CorrectText.correct_text(generated_text, target_language, source_language)
-        # translated_text = asyncio.run(TranslateText().translate_text(generated_text, target_language, source_language))
 
         return jsonify({'message': 'Text translated successfully!', 'text': translated_text})
 
