@@ -8,28 +8,31 @@
 </head>
 <body>
     <center><h1>Video Dubbing Platform</h1></center>
-    <p>Upload your video and select the language you want to dub it into. Our AI-powered system will generate a naturally dubbed version in your chosen language.</p>
+    <p>Paste your YouTube video link here and select your target language you want to dub it into. Our AI-powered system will generate a naturally dubbed version in your chosen language.</p>
     <div class="container">
         <div class="ytDownload" style="margin-bottom: 20px;">
-            <h3>YouTube Video Download</h3>
-        <label for="downloadLink" class="downloadBox">
-            <form action="#" id="downloadForm">
-                <input type="search" id="downloadYTLink" placeholder=" Paste the YouTube video link...">
-                <button type="submit" id="downloadBtn">Download</button>
-            </form>
-        </label>
+            <h3>YouTube Video Link</h3>
+            <label for="downloadYTLink" class="downloadBox">
+                <form action="#" id="downloadForm">
+                    <input type="search" id="downloadYTLink" placeholder=" Paste the YouTube video link..." required>
+                    <button type="submit" id="startDubbing">Start Dubbing Process</button>
+                </form>
+            </label>
         </div>
-        <h3>Upload Your Video</h3>
+        <p id="status" style="margin-bottom: 20px;"></p>
+        <h3>Select Dubbing Language</h3>
+        <div class="selectLanguage">
+            <select name="targetLanguage" id="tarLang">
+                <option value="en"> Target Language </option>
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+            </select>
+        </div>
+        <h3>Source video</h3>
         <div class="uploadBox">
             <div class="displayUploadedVideo">
-                <video width="100%" controls>
-                    <source id="disUpVid" src="#" type="video/*">
-                </video>
-            </div>
-            <div class="uploadBtnBox">
-                <label for="selectVideo" id="uploadBtn">Select Video</label>
-                <input id="selectVideo" name="video" type="file" hidden required>
-                <button id="uploader">Upload video</button>
+                <iframe id="videoFrame" width="90%" height="500" style="display: none;" src="#" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <div class="genetratedSourceText">
                 <div>
@@ -38,23 +41,6 @@
                 </div>
                 <p id="transcribeText">Not generated yet!</p>
             </div>
-        </div>
-        <p id="status" style="margin-bottom: 20px;"></p>
-        <h3>Select Dubbing Language</h3>
-        <div class="selectLanguage">
-            <select name="sourceLanguage" id="sourLang">
-                <option value="sourceLanguage"> Current Language </option>
-                <option value="en">English</option>
-                <option value="hi">Hindi</option>
-                <option value="ta">Tamil</option>
-            </select>
-            <select name="targetLanguage" id="tarLang">
-                <option value="target_language"> Target Language </option>
-                <option value="en">English</option>
-                <option value="hi">Hindi</option>
-                <option value="ta">Tamil</option>
-            </select>
-            <button id="startDubbing">Start Dubbing Process</button>
         </div>
         <div class="dubbedResult">
             <div class="genetratedSourceText" style="margin-bottom: 20px;">
@@ -70,17 +56,21 @@
                 <div id="compareTab" class="tab">Compare</div>
             </div>
             <div id="outputVideoOnly">
-                <video controls>
-                    <source id="dubbedVideoDisplay" src="#" type="video/*">
-                </video>
+                <iframe id="dubbedVideoDisplay" src="#" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <div id="compareVideo" style="display:none;">
-                <video controls>
-                    <source id="originalVideoCompare" src="#" type="video/*">
-                </video>
-                <video controls>
-                    <source id="dubbedVideoCompare" src="#" type="video/*">
-                </video>
+                <div>
+                    <h4>Original Video</h4>
+                    <div>
+                        <iframe id="originalVideoCompare" src="#" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div>
+                    <h4>Dubbed Video</h4>
+                    <div>
+                        <iframe id="dubbedVideoCompare" src="#" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
             </div>
             <div class="buttons">
                 <a id="downloadLink" type="button" href="#" download>Download</a>

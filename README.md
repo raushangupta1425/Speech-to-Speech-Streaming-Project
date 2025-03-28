@@ -15,7 +15,7 @@ This project help us to dubbed any video to our preference languages. If we have
 ## Features
     - You can download YouTube video using YouTube video link
     - Dubbed video in available languages.
-    - Tried video length upto 5 minutes till now. User can check more then it.
+    - Tried video length upto 8 minutes till now. User can check more then it.
     - You can download dubbed video by clicking on Download button.
 
 ## Follow the instruction

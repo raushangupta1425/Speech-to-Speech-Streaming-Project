@@ -3,24 +3,20 @@ const previewBtn = document.getElementById('previewTab')
 const compareBtn = document.getElementById('compareTab')
 const outputVideoOnly = document.getElementById('outputVideoOnly')
 const compareVideo = document.getElementById('compareVideo')
-const uploaderBtn = document.getElementById('uploader')
-const selectVideoInput = document.getElementById('selectVideo')
 const startDubbingBtn = document.getElementById('startDubbing')
 const status = document.getElementById('status')
-const disUpVid = document.getElementById('disUpVid')
 const downloadLink = document.getElementById('downloadLink')
 const targetLanguage = document.getElementById('tarLang')
-const sourceLanguage = document.getElementById('sourLang')
 const originalVideoCompare = document.getElementById('originalVideoCompare')
 const dubbedVideoCompare = document.getElementById('dubbedVideoCompare')
 const dubbedVideoDisplay = document.getElementById('dubbedVideoDisplay')
 const downloadLinkInput = document.getElementById("downloadYTLink")
 const downloadForm = document.getElementById("downloadForm")
-const downloadBtn = document.getElementById("downloadBtn")
 const toggleShowBtn = document.getElementById("toggleShow")
 const transcribeText = document.getElementById("transcribeText")
 const translatedText = document.getElementById("translatedText")
 const toggleShowBtnDubbed = document.getElementById("toggleShowBtn")
+const videoFrame = document.getElementById("videoFrame")
 
 toggleShowBtn.addEventListener('click', ()=>{
     if(toggleShowBtn.innerHTML == "Show"){
@@ -42,26 +38,6 @@ toggleShowBtnDubbed.addEventListener('click', ()=>{
     }
 })
 
-downloadForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-    downloadBtn.innerHTML = "Please wait...";
-    downloadBtn.disabled = "disabled"
-
-    const formData = new FormData();
-        formData.append('link', downloadLinkInput.value);
-    
-    fetch("/download", {
-        method: 'POST',
-        body: formData
-    })
-    .then(res=> res.json())
-    .then(data=>{
-        alert(data.message)
-        downloadBtn.innerHTML = "Download";
-        downloadBtn.removeAttribute("disabled")
-    })
-})
-
 // Switch between tabs
 previewBtn.addEventListener('click', () => {
     compareBtn.classList.remove('active');
@@ -77,76 +53,63 @@ compareBtn.addEventListener('click', () => {
     compareVideo.style.display = "flex";
 });
 
-// Upload video functionality
-let filename;
-uploaderBtn.addEventListener('click', ()=>{
-    const file = selectVideoInput.files[0];
-    if (file) {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        fetch('/upload', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            status.innerHTML = "Status: " + data.message;
-            status.style.color= "green";
-            setTimeout(()=>{
-                status.innerHTML = '';
-            },3000)
-            filename = data.filename;
-            disUpVid.src = data.video_url;  // Set the uploaded video URL from response
-            originalVideoCompare.src = data.video_url;
-            // disUpVid.load(); // Reload the video element with the new source
-            // originalVideoCompare.load();
-        })
-        .catch(err => {
-            status.innerHTML = "Status: Error in uploading.";
-            status.style.color= "red";
-            setTimeout(()=>{
-                status.innerHTML = '';
-            },3000)
-            console.error(err)
-        });
-    } else {
-        alert('No file selected');
-    }
-})
-
 // Start dubbing
-let filenameWithExtension;
-let original_video_path;
-
-startDubbingBtn.addEventListener('click', async () => {
+downloadForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    startDubbingBtn.innerHTML = "Processing...";
+    startDubbingBtn.disabled = "disabled"
     status.innerHTML = "Status: Please wait, its processing...";
     status.style.color = "green";
-
+    let link = downloadLinkInput.value.split("https://youtu.be/");
+    let videoId = link[1];
+    let newLink = `https://www.youtube.com/embed/${videoId}`
+    videoFrame.style.display = "block";
+    videoFrame.src = newLink;
+    originalVideoCompare.style.visibility = "visible";
+    originalVideoCompare.src = newLink;
+    
     try {
+        // Start downloading video
+        const downloadData = new FormData();
+        downloadData.append('link', downloadLinkInput.value);
+    
+        let response = await fetch("/download", {
+            method: 'POST',
+            body: downloadData
+        })
+        let data = await response.json();
+
+        if (!response.ok) throw new Error("Error during downloading video.");
+
+        let videoName = data.videoName;
+        status.innerHTML = "Status: " + data.message;
+        status.style.color = "green";
+
         // Step 1: Start transcription
         const formData = new FormData();
-        formData.append('video', filename);
+        formData.append('video', videoName);
 
-        let response = await fetch('/start', {
+        response = await fetch('/start', {
             method: 'POST',
             body: formData
         });
-        let data = await response.json();
+        data = await response.json();
 
         if (!response.ok) throw new Error("Error during transcribing text.");
 
         transcribeText.innerHTML = data.text;
-        original_video_path = data.original_video_path;
-        filenameWithExtension = data.filenameWithExtension;
+        let original_video_path = data.original_video_path;
+        // let original_video_path = "./uploads/_How to Upload 3 Minute Shorts on YouTube (in Hindi).mp4";
+        let filenameWithExtension = data.filenameWithExtension;
+        // let filenameWithExtension = "_How to Upload 3 Minute Shorts on YouTube (in Hindi).mp4";
         status.innerHTML = "Status: " + data.message;
         status.style.color = "green";
+        // let tx = "Agar aap youtube pe shorts "
 
         // Step 2: Request translation
         const textGeneratedData = new FormData();
         textGeneratedData.append('generatedText', data.text);
         textGeneratedData.append('targetLanguage', targetLanguage.value);
-        textGeneratedData.append('sourceLanguage', sourceLanguage.value);
 
         response = await fetch('/translate', {
             method: 'POST',
@@ -184,8 +147,12 @@ startDubbingBtn.addEventListener('click', async () => {
         filename = data.filename;
         downloadLink.href = data.dubbed_url;  // Use returned URL from backend
         downloadLink.download = data.filename;
+        dubbedVideoCompare.style.visibility = "visible";
+        dubbedVideoDisplay.style.display = "block";
         dubbedVideoCompare.src = data.dubbed_url;
         dubbedVideoDisplay.src = data.dubbed_url;
+        startDubbingBtn.innerHTML = "Start Dubbing Process";
+        startDubbingBtn.removeAttribute("disabled")
 
     } catch (err) {
         status.innerHTML = "Status: " + err.message;

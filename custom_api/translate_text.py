@@ -1,30 +1,37 @@
-# Importing required library
-from googletrans import Translator
+import os
+import dotenv
+from langchain.prompts import PromptTemplate 
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-# Translate the text
 class TranslateText:
-    try:
-        async def translate_text(self, source_text, targetLanguage, sourceLanguage):
-            # Translator method for translation
-            translator = Translator()
+    def translate_text(self, user_input, target_language):
+        print("Translating the text...")
+        dotenv.load_dotenv()
 
-            # Source and target languages
-            # if source_lang in googletrans.LANGUAGES
-            if sourceLanguage == "sourceLanguage" and targetLanguage == "target_language":
-                from_lang = 'hi'
-                to_lang = 'en'
-            elif sourceLanguage == "sourceLanguage" and targetLanguage != "target_language":
-                from_lang = 'hi'
-                to_lang = targetLanguage
-            elif sourceLanguage != "sourceLanguage" and targetLanguage == "target_language":
-                from_lang = sourceLanguage
-                to_lang = 'en'
-            else:
-                from_lang = sourceLanguage
-                to_lang = targetLanguage
-            
-            async with Translator() as translator:
-                result = await translator.translate(source_text, src=from_lang, dest=to_lang)
-                return result.text
-    except Exception as e:
-        print(f" Error while translating! {e}")
+        GEMINI_MODEL = os.getenv("GEMINI_MODEL") # gemini-1.5-flash
+        GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") # Need to load GOOGLE_API_KEY from environment.
+
+        llm = ChatGoogleGenerativeAI(model=GEMINI_MODEL, temperature=0.7)
+
+        TEMPLATE = f"""
+        You are an Languages Translator Assistant trained to provide accurate translation of the user inputs. You will:
+        1. Translate the user's input by analyzing the language code. 
+        2. Read the user's text, analyze the text source language and translate the user's text into target language code ${target_language}.
+        2. Do not add any word and sentences extra.
+        3. Must generate meaning sentences with proper punctuation marks.
+
+        You are only allowed to translate the user's input to the targeted language.
+
+        IMPORTANT: I am an AI assistant and trained for translate the user's input to the targeted language only cannot provide any other details.
+
+        ${user_input}
+        """
+
+        prompt = PromptTemplate.from_template(TEMPLATE)
+
+        chain = prompt | llm
+
+        response = chain.invoke({"input": user_input})
+        print("Translated Text successfully!")
+
+        return response.content
