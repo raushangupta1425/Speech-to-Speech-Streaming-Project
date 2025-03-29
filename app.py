@@ -20,59 +20,49 @@ def dubbed_videos(filename):
 def home():
     return render_template('index.html')
 
-UPLOAD_FOLDER = 'uploads'  # adjust according to your project structure
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    file = request.files['file']
-    if file:
-        filename = file.filename
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-        video_url = url_for('uploaded_file', filename=filename)
-        return jsonify({
-            'message': 'Video uploaded successfully.',
-            'filename': filename,
-            'video_url': video_url
-        })
-    else:
-        return jsonify({'message': 'No file uploaded'}), 400
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+# Define the upload directory
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Ensure it exists
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 @app.route('/download', methods=['POST'])
 def download():
     try:
         url = request.form.get("link")
-        current_folder = os.path.dirname(os.path.abspath(__file__))
-        output_path = current_folder+"/uploads/"
-        
-        # Ensure the downloads folder exists
-        os.makedirs(output_path, exist_ok=True)
+        if not url:
+            return jsonify({'message': 'No URL provided'}), 400
 
+        # Define yt_dlp options
         ydl_opts = {
-            "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]",  # Forces MP4 format
-            "merge_output_format": "mp4",  # Ensures final output is MP4
-            "outtmpl": f"{output_path}/_%(title)s.%(ext)s",
+            "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]",
+            "merge_output_format": "mp4",
+            "outtmpl": os.path.join(UPLOAD_FOLDER, "_%(title)s.%(ext)s"),  # Ensure valid path
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(url, download=True)  # Extract info and download video
-            video_path = ydl.prepare_filename(info_dict)  # Get the expected filename
-            video_filename = video_path.split("uploads\_")[1]
-        return jsonify({'message': 'Download successfully!', 'videoName': video_filename})
+            video_path = ydl.prepare_filename(info_dict)  # Get the actual filename
+            video_filename = os.path.basename(video_path)  # Extract filename safely
+
+        # Generate a URL for the downloaded video
+        download_url = url_for('serve_uploaded_video', filename=video_filename, _external=True)
+
+        return jsonify({'message': 'Download successful!', 'videoName': video_filename, 'download_url': download_url})
+
     except Exception as e:
-        return jsonify({'message': 'File already exist!'})
+        return jsonify({'message': 'Error during download', 'error': str(e)}), 500
+
+# Route to serve downloaded videos
+@app.route('/uploads/<path:filename>')
+def serve_uploaded_video(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 @app.route('/start', methods=['POST'])
 def start():
     try:
         filenameWithExtension = request.form.get('video')
-        videoPath = './uploads/_' + filenameWithExtension
+        videoPath = './uploads/' + filenameWithExtension
         
         if not filenameWithExtension:
             return jsonify({'message': 'Missing required fields'}), 400

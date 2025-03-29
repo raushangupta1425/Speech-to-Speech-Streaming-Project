@@ -60,13 +60,6 @@ downloadForm.addEventListener('submit', async (e) => {
     startDubbingBtn.disabled = "disabled"
     status.innerHTML = "Status: Please wait, its processing...";
     status.style.color = "green";
-    let link = downloadLinkInput.value.split("https://youtu.be/");
-    let videoId = link[1];
-    let newLink = `https://www.youtube.com/embed/${videoId}`
-    videoFrame.style.display = "block";
-    videoFrame.src = newLink;
-    originalVideoCompare.style.visibility = "visible";
-    originalVideoCompare.src = newLink;
     
     try {
         // Start downloading video
@@ -82,10 +75,19 @@ downloadForm.addEventListener('submit', async (e) => {
         if (!response.ok) throw new Error("Error during downloading video.");
 
         let videoName = data.videoName;
+        videoFrame.style.display = "block";
+        videoFrame.src = data.download_url;
+        originalVideoCompare.style.visibility = "visible";
+        originalVideoCompare.src = data.download_url;
         status.innerHTML = "Status: " + data.message;
         status.style.color = "green";
 
         // Step 1: Start transcription
+        setTimeout(() => {
+            status.innerHTML = "Status: Extracting audio and text...";
+            status.style.color = "green";
+        }, 3000);
+        
         const formData = new FormData();
         formData.append('video', videoName);
 
@@ -99,13 +101,10 @@ downloadForm.addEventListener('submit', async (e) => {
 
         transcribeText.innerHTML = data.text;
         let original_video_path = data.original_video_path;
-        // let original_video_path = "./uploads/_How to Upload 3 Minute Shorts on YouTube (in Hindi).mp4";
         let filenameWithExtension = data.filenameWithExtension;
-        // let filenameWithExtension = "_How to Upload 3 Minute Shorts on YouTube (in Hindi).mp4";
         status.innerHTML = "Status: " + data.message;
         status.style.color = "green";
-        // let tx = "Agar aap youtube pe shorts "
-
+        
         // Step 2: Request translation
         const textGeneratedData = new FormData();
         textGeneratedData.append('generatedText', data.text);
@@ -124,6 +123,10 @@ downloadForm.addEventListener('submit', async (e) => {
         status.style.color = "green";
 
         // Step 3: Final dubbing process
+        setTimeout(() => {
+            status.innerHTML = "Status: Dubbing video...";
+            status.style.color = "green";
+        }, 3000);
         const translatedData = new FormData();
         translatedData.append('translatedText', data.text);
         translatedData.append('filenameWithExtension', filenameWithExtension);
