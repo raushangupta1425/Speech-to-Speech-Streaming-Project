@@ -129,6 +129,7 @@ downloadForm.addEventListener('submit', async (e) => {
         }, 3000);
         const translatedData = new FormData();
         translatedData.append('translatedText', data.text);
+        translatedData.append('targetLanguage', targetLanguage.value);
         translatedData.append('filenameWithExtension', filenameWithExtension);
         translatedData.append('original_video_path', original_video_path);
 

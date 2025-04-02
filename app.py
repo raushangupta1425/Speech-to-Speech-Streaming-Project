@@ -104,6 +104,7 @@ def finish():
     try:
         # Retrieve form data
         translated_text = request.form.get('translatedText')
+        tarLang = request.form.get('targetLanguage')
         filename_with_extension = "_"+request.form.get('filenameWithExtension')
         original_video_path = request.form.get('original_video_path')
 
@@ -111,7 +112,7 @@ def finish():
             return jsonify({'message': 'Missing required fields'}), 400
 
         # Step 4: Convert text to speech
-        audio_file_name = TextToSpeech().text_to_speech(translated_text)  # Ensure this function returns a valid filename
+        audio_file_name = TextToSpeech().text_to_speech(translated_text, tarLang)  # Ensure this function returns a valid filename
 
         # Step 5: Prepare video filename
         filename_without_extension, _ = os.path.splitext(filename_with_extension)  # Extract filename without extension
